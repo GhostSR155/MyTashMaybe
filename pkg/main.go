@@ -24,6 +24,7 @@ func Calc(expression string) (float64, error) {
 				return 0, errors.New("Invalid expression")
 			}
 			operators = operators[:len(operators)-1]
+			stack = stack[:len(stack)-1]
 		} else if char == '+' || char == '-' || char == '*' || char == '/' {
 			for len(operators) > 0 && precedence(operators[len(operators)-1]) >= precedence(char) {
 				stack, operators = applyOperator(stack, operators)
@@ -101,7 +102,7 @@ func applyOperator(stack []float64, operators []rune) ([]float64, []rune) {
 }
 
 func main() {
-	result, err := Calc("3 + 4 * 2 / (1 - 5)^2")
+	result, err := Calc("(2+2*2")
 	if err != nil {
 		fmt.Println("Error:", err)
 	} else {
