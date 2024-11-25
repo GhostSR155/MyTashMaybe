@@ -5,7 +5,7 @@ package rpn_test
 import (
 	"testing"
 
-	rpn "github.com/GhostSR155/MyTrashMaybe.git"
+	rpn "github.com/GhostSR155/MyTrashMaybe/rpn/pkg"
 )
 
 func TestCalc(t *testing.T) {
