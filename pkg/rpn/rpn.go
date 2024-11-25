@@ -1,4 +1,4 @@
-package main
+package rpn
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func StringToFloat64(str string) float64 {
+func stringToFloat64(str string) float64 {
 	degree := float64(1)
 	var res float64 = 0
 	var invers bool = false
@@ -24,7 +24,7 @@ func StringToFloat64(str string) float64 {
 	return res
 }
 
-func IsSign(value rune) bool {
+func isSign(value rune) bool {
 	return value == '+' || value == '-' || value == '*' || value == '/'
 }
 
@@ -41,12 +41,12 @@ func Calc(expression string) (float64, error) {
 	var countc int = 0
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	for _, value := range expression {
-		if IsSign(value) {
+		if isSign(value) {
 			countc++
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	if IsSign(rune(expression[0])) || IsSign(rune(expression[len(expression)-1])) {
+	if isSign(rune(expression[0])) || isSign(rune(expression[len(expression)-1])) {
 		return 0, fmt.Errorf("???")
 	}
 	for i, value := range expression {
@@ -72,7 +72,7 @@ func Calc(expression string) (float64, error) {
 			if value == '*' || value == '/' {
 				var imin int = i - 1
 				if imin != 0 {
-					for !IsSign(rune(expression[imin])) && imin > 0 {
+					for !isSign(rune(expression[imin])) && imin > 0 {
 						imin--
 					}
 					imin++
@@ -81,7 +81,7 @@ func Calc(expression string) (float64, error) {
 				if imax == len(expression) {
 					imax--
 				} else {
-					for !IsSign(rune(expression[imax])) && imax < len(expression)-1 {
+					for !isSign(rune(expression[imax])) && imax < len(expression)-1 {
 						imax++
 					}
 				}
@@ -108,21 +108,21 @@ func Calc(expression string) (float64, error) {
 			continue
 		case value > 47 && value < 58: // Если это цифра
 			b += string(value)
-		case IsSign(value) || value == 's': // Если это знак
+		case isSign(value) || value == 's': // Если это знак
 			if resflag {
 				switch c {
 				case '+':
-					res += StringToFloat64(b)
+					res += stringToFloat64(b)
 				case '-':
-					res -= StringToFloat64(b)
+					res -= stringToFloat64(b)
 				case '*':
-					res *= StringToFloat64(b)
+					res *= stringToFloat64(b)
 				case '/':
-					res /= StringToFloat64(b)
+					res /= stringToFloat64(b)
 				}
 			} else {
 				resflag = true
-				res = StringToFloat64(b)
+				res = stringToFloat64(b)
 			}
 			b = strings.ReplaceAll(b, b, "")
 			c = value
